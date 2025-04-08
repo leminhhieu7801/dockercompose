@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  node-app:
+    build: .
+    container_name: node_container
+    ports:
+      - "3001:3000"
+    volumes:
+      - .:/app
+    environment:
+      NODE_ENV: development
+    restart: always

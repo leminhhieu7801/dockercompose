@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:latest  # Sử dụng MongoDB mới nhất
+    container_name: mongodb_container
+    restart: always
+    ports:
+      - "27017:27017"  # Mở cổng MongoDB
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin  # Tên user admin
+      MONGO_INITDB_ROOT_PASSWORD: password  # Mật khẩu admin
+    volumes:
+      - mongo_data:/data/db  # Lưu trữ dữ liệu MongoDB
+
+  mongo-express:
+    image: mongo-express:latest  # Sử dụng Mongo Express mới nhất
+    container_name: mongo_express_container
+    restart: always
+    depends_on:
+      - mongodb  # Đảm bảo MongoDB chạy trước
+    ports:
+      - "8081:8081"  # Mở cổng Mongo Express
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_URL: mongodb://admin:password@mongodb:27017/
+
+volumes:
+  mongo_data:
