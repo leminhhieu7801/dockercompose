@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  app:
+    build: ./app
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    command: npm start
+
+  tests:
+    build: ./app
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+    working_dir: /app
+    command: sh -c "while true; do npm test; sleep 5; done"
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8080:80"
+    depends_on:
+      - app

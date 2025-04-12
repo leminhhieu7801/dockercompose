@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis
+    container_name: limited_redis
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'      # Giới hạn 50% CPU
+          memory: 256M     # Giới hạn 256MB RAM
+    ports:
+      - "6379:6379"
